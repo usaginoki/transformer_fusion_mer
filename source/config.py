@@ -1,15 +1,15 @@
 import os
 from torch import cuda
 
-MAIN_PATH = str(os.path.dirname(os.path.abspath(__file__)).split('source')[0])
-windows = (True if (os.name == 'nt') else False)
+MAIN_PATH = str(os.path.dirname(os.path.abspath(__file__)).split("source")[0])
+windows = True if (os.name == "nt") else False
 if windows:
-    OS = 'windows'
+    OS = "windows"
 else:
-    OS = 'linux'
+    OS = "linux"
 
 ls = os.sep
-device = 'cuda' if cuda.is_available() else 'cpu'
+device = "cuda" if cuda.is_available() else "cpu"
 
 #################################################################################################################################
 # FOLDERS
@@ -24,6 +24,9 @@ OUTPUT_FOLDER_PATH = MAIN_PATH + "output_files" + ls
 AUDIO_MODEL_FOLDER_PATH = MODEL_FOLDER_PATH + "audio" + ls
 FACE_MODEL_FOLDER_PATH = MODEL_FOLDER_PATH + "face" + ls
 AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH = MODEL_FOLDER_PATH + "audio_face_combined" + ls
+AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH = (
+    MODEL_FOLDER_PATH + "audio_face_transformer" + ls
+)
 TRANSCRIBE_MODEL_FOLDER_PATH = MODEL_FOLDER_PATH + "transcribe" + ls
 
 # Data sub folders
@@ -42,21 +45,27 @@ TRAINING_AV_FOLDER_PATH = DATA_FOLDER_PATH + "training_AV" + ls
 # Original datasets sub folders
 
 # Audio/Video
-RAVDESS_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'RAVDESS' + ls
-SAVEE_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'SAVEE' + ls + 'AudioVisualClip' + ls
-OMG_ORIGINAL_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'OMG' + ls + 'videos' + ls
-MELD_ORIGINAL_VIDEOS_FOLDER_PATH = [ORIGINAL_AV_DATASET_PATH + 'MELD' + ls + 'train_sent_emo' + ls,
-                                    ORIGINAL_AV_DATASET_PATH + 'MELD' + ls + 'test_sent_emo' + ls]
-CREMAD_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'CREMA-D_video' + ls
+RAVDESS_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + "RAVDESS" + ls
+SAVEE_VIDEOS_FOLDER_PATH = (
+    ORIGINAL_AV_DATASET_PATH + "SAVEE" + ls + "AudioVisualClip" + ls
+)
+OMG_ORIGINAL_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + "OMG" + ls + "videos" + ls
+MELD_ORIGINAL_VIDEOS_FOLDER_PATH = [
+    ORIGINAL_AV_DATASET_PATH + "MELD" + ls + "train_sent_emo" + ls,
+    ORIGINAL_AV_DATASET_PATH + "MELD" + ls + "test_sent_emo" + ls,
+]
+CREMAD_VIDEOS_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + "CREMA-D_video" + ls
 
-SAVEE_ORIGINAL_AUDIO_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'SAVEE' + ls + 'AudioData' + ls
-CREMAD_ORIGINAL_AUDIO_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'CREMA-D' + ls
-TESS_ORIGINAL_AUDIO_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + 'TESS' + ls
+SAVEE_ORIGINAL_AUDIO_FOLDER_PATH = (
+    ORIGINAL_AV_DATASET_PATH + "SAVEE" + ls + "AudioData" + ls
+)
+CREMAD_ORIGINAL_AUDIO_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + "CREMA-D" + ls
+TESS_ORIGINAL_AUDIO_FOLDER_PATH = ORIGINAL_AV_DATASET_PATH + "TESS" + ls
 
 # Faces
-FER_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + 'FER' + ls
-CK_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + 'CK+' + ls
-RAF_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + 'RAF' + ls
+FER_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + "FER" + ls
+CK_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + "CK+" + ls
+RAF_FACES_FOLDER_PATH = __ORIGINAL_FACES_DATASET_PATH + "RAF" + ls
 # ________________________________________________________________________________________________________________________________
 # Extracted folders
 
@@ -80,14 +89,23 @@ CREMAD_EXTRACTED_AV_FOLDER_PATH = TRAINING_AV_FOLDER_PATH + "CREMA-D" + ls
 
 # All extracted
 # These are the folders that are used for training
-ALL_EXTRACTED_AUDIO_FOLDERS = [RAVDESS_EXTRACTED_AUDIO_FOLDER_PATH, SAVEE_EXTRACTED_AUDIO_FOLDER_PATH, CREMAD_EXTRACTED_AUDIO_FOLDER_PATH, TESS_EXTRACTED_AUDIO_FOLDER_PATH]
-ALL_EXTRACTED_FACES_FOLDERS = [FER_EXTRACTED_FACES_FOLDER_PATH, CK_EXTRACTED_FACES_FOLDER_PATH, RAF_EXTRACTED_FACES_FOLDER_PATH]
+ALL_EXTRACTED_AUDIO_FOLDERS = [
+    RAVDESS_EXTRACTED_AUDIO_FOLDER_PATH,
+    # SAVEE_EXTRACTED_AUDIO_FOLDER_PATH,
+    # CREMAD_EXTRACTED_AUDIO_FOLDER_PATH,
+    # TESS_EXTRACTED_AUDIO_FOLDER_PATH,
+]
+ALL_EXTRACTED_FACES_FOLDERS = [
+    # FER_EXTRACTED_FACES_FOLDER_PATH,
+    # CK_EXTRACTED_FACES_FOLDER_PATH,
+    # RAF_EXTRACTED_FACES_FOLDER_PATH,
+]
 ALL_EXTRACTED_AV_FOLDERS = [
     # MELD_EXTRACTED_AV_FOLDER_PATH,  # Disabled due to bad labels
     # OMG_EXTRACTED_AV_FOLDER_PATH,
-    CREMAD_EXTRACTED_AV_FOLDER_PATH,
+    # CREMAD_EXTRACTED_AV_FOLDER_PATH,
     RAVDESS_EXTRACTED_AV_FOLDER_PATH,
-    SAVEE_EXTRACTED_AV_FOLDER_PATH,
+    # SAVEE_EXTRACTED_AV_FOLDER_PATH,
 ]
 
 ##################################################################################################################################
@@ -97,24 +115,54 @@ ALL_EXTRACTED_AV_FOLDERS = [
 # Model file paths
 AUDIO_MODEL_SAVE_PATH = AUDIO_MODEL_FOLDER_PATH + "audio_model.pth"
 FACE_MODEL_SAVE_PATH = FACE_MODEL_FOLDER_PATH + "face_model.pth"
-AUDIO_FACE_COMBINED_MODEL_SAVE_PATH = AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH + "audio_face_combined_model.pth"
+AUDIO_FACE_COMBINED_MODEL_SAVE_PATH = (
+    AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH + "audio_face_combined_model.pth"
+)
+AUDIO_FACE_TRANSFORMER_MODEL_SAVE_PATH = (
+    AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH + "audio_face_transformer_model.pth"
+)
 
 # Tuner file paths
 AUDIO_TUNER_SAVE_PATH = os.path.join(AUDIO_MODEL_FOLDER_PATH, "tuner")
 AUDIO_TUNER_CSV_SAVE_PATH = os.path.join(AUDIO_MODEL_FOLDER_PATH, "tuner_results.csv")
 FACE_TUNER_SAVE_PATH = os.path.join(FACE_MODEL_FOLDER_PATH, "tuner")
 FACE_TUNER_CSV_SAVE_PATH = os.path.join(FACE_MODEL_FOLDER_PATH, "tuner_results.csv")
-AUDIO_FACE_COMBINED_TUNER_SAVE_PATH = os.path.join(AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "tuner")
-AUDIO_FACE_COMBINED_TUNER_CSV_SAVE_PATH = os.path.join(AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "tuner_results.csv")
+AUDIO_FACE_COMBINED_TUNER_SAVE_PATH = os.path.join(
+    AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "tuner"
+)
+AUDIO_FACE_COMBINED_TUNER_CSV_SAVE_PATH = os.path.join(
+    AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "tuner_results.csv"
+)
+AUDIO_FACE_TRANSFORMER_TUNER_SAVE_PATH = os.path.join(
+    AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH, "tuner"
+)
+AUDIO_FACE_TRANSFORMER_TUNER_CSV_SAVE_PATH = os.path.join(
+    AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH, "tuner_results.csv"
+)
 
 # Normalization file paths
 FACE_NORM_SCALAR_SAVE_PATH = FACE_MODEL_FOLDER_PATH + "face_norm_scalar.pkl"
-AUDIO_FACE_COMBINED_NORM_SCALAR_SAVE_PATH = AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH + "audio_face_combined_norm_scalar.pkl"
+AUDIO_FACE_COMBINED_NORM_SCALAR_SAVE_PATH = (
+    AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH + "audio_face_combined_norm_scalar.pkl"
+)
+AUDIO_FACE_TRANSFORMER_NORM_SCALAR_SAVE_PATH = (
+    AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH + "audio_face_transformer_norm_scalar.pkl"
+)
 
 # Best hyperparameters file paths
-AUDIO_BEST_HP_JSON_SAVE_PATH = os.path.join(AUDIO_MODEL_FOLDER_PATH, "audio_best_hyperparameters.json")
-FACE_BEST_HP_JSON_SAVE_PATH = os.path.join(FACE_MODEL_FOLDER_PATH, "face_best_hyperparameters.json")
-AUDIO_FACE_COMBINED_BEST_HP_JSON_SAVE_PATH = os.path.join(AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "combined_best_hyperparameters.json")
+AUDIO_BEST_HP_JSON_SAVE_PATH = os.path.join(
+    AUDIO_MODEL_FOLDER_PATH, "audio_best_hyperparameters.json"
+)
+FACE_BEST_HP_JSON_SAVE_PATH = os.path.join(
+    FACE_MODEL_FOLDER_PATH, "face_best_hyperparameters.json"
+)
+AUDIO_FACE_COMBINED_BEST_HP_JSON_SAVE_PATH = os.path.join(
+    AUDIO_FACE_COMBINED_MODEL_FOLDER_PATH, "combined_best_hyperparameters.json"
+)
+AUDIO_FACE_TRANSFORMER_BEST_HP_JSON_SAVE_PATH = os.path.join(
+    AUDIO_FACE_TRANSFORMER_MODEL_FOLDER_PATH,
+    "audio_face_transformer_best_hyperparameters.json",
+)
 
 # Class weights path
 FACE_CLASS_WEIGHTS_SAVE_PATH = FACE_MODEL_FOLDER_PATH + "face_class_weights.pkl"
@@ -126,13 +174,15 @@ FER_PATH = __OLD_FER_PATH
 
 # OMG labels file path
 OMG_labels_file_paths = [
-    ORIGINAL_AV_DATASET_PATH + 'OMG' + ls + "omg_TrainVideos.csv",
-    ORIGINAL_AV_DATASET_PATH + 'OMG' + ls + "omg_ValidationVideos.csv",
-    ORIGINAL_AV_DATASET_PATH + 'OMG' + ls + "omg_TestVideos_WithLabels.csv"
+    ORIGINAL_AV_DATASET_PATH + "OMG" + ls + "omg_TrainVideos.csv",
+    ORIGINAL_AV_DATASET_PATH + "OMG" + ls + "omg_ValidationVideos.csv",
+    ORIGINAL_AV_DATASET_PATH + "OMG" + ls + "omg_TestVideos_WithLabels.csv",
 ]
 
-MELD_labels_file_paths = [ORIGINAL_AV_DATASET_PATH + 'MELD' + ls + "train_sent_emo.csv",
-                          ORIGINAL_AV_DATASET_PATH + 'MELD' + ls + "test_sent_emo.csv"]
+MELD_labels_file_paths = [
+    ORIGINAL_AV_DATASET_PATH + "MELD" + ls + "train_sent_emo.csv",
+    ORIGINAL_AV_DATASET_PATH + "MELD" + ls + "test_sent_emo.csv",
+]
 
 # RAF faces labels file path
 RAF_faces_labels_file_path = RAF_FACES_FOLDER_PATH + ls + "list_partition_label.txt"
@@ -144,16 +194,36 @@ test_split_percentage = 0.15
 MIN_VID_LEN = 1.5
 VIDEO_ANALYSE_WINDOW_SECS = 4.0  # All videos and audio files in the training set should be of this length. If videos in the training set are longer, only the last x seconds will be used. (3.5 sec video, last 2.5 secs will be used)
 FRAME_RATE = 4  # Frames per second
-AUDIO_INPUT_SHAPE = (3, 126, 13)  # Find and change this shape if you change the window length
-TEXT_SENTIMENT_INPUT_SHAPE = (9)
+AUDIO_INPUT_SHAPE = (
+    3,
+    126,
+    13,
+)  # Find and change this shape if you change the window length
+TEXT_SENTIMENT_INPUT_SHAPE = 9
 
 MAX_THREADS = 7
 
 ##################################################################################################################################
 
 # Use the FULL_EMOTIONS_LIST for labelling the data when you format it for preprocessing. DO NOT USE THE 'SIMPLIFIED EMOTIONS_INDEX'. Simplifying is done automatically. You can change the simplified emotions list and it's mapping if you want.
-FULL_EMOTION_INDEX = {0: 'Angry', 1: 'Disgust', 2: 'Fear', 3: 'Happy', 4: 'Sad', 5: 'Surprise', 6: 'Neutral'}
-FULL_EMOTION_INDEX_REVERSE = {'Angry': 0, 'Disgust': 1, 'Fear': 2, 'Happy': 3, 'Sad': 4, 'Surprise': 5, 'Neutral': 6}
+FULL_EMOTION_INDEX = {
+    0: "Angry",
+    1: "Disgust",
+    2: "Fear",
+    3: "Happy",
+    4: "Sad",
+    5: "Surprise",
+    6: "Neutral",
+}
+FULL_EMOTION_INDEX_REVERSE = {
+    "Angry": 0,
+    "Disgust": 1,
+    "Fear": 2,
+    "Happy": 3,
+    "Sad": 4,
+    "Surprise": 5,
+    "Neutral": 6,
+}
 
 SIMPLIFIED_EMOTIONS_MAP = {
     2: 0,  # Fear -> Sad/Fear
@@ -165,12 +235,24 @@ SIMPLIFIED_EMOTIONS_MAP = {
     0: 3,  # Angry -> Angry
 }
 
-SIMPLIFIED_EMOTIONS_INDEX_REVERSE = {'Sad/Fear': 0, 'Neutral': 1, 'Happy': 2, 'Angry': 3, 'Surprise/Disgust': 4}
+SIMPLIFIED_EMOTIONS_INDEX_REVERSE = {
+    "Sad/Fear": 0,
+    "Neutral": 1,
+    "Happy": 2,
+    "Angry": 3,
+    "Surprise/Disgust": 4,
+}
 # Map full emotions to simplified emotions
 for key, value in FULL_EMOTION_INDEX_REVERSE.items():
     SIMPLIFIED_EMOTIONS_INDEX_REVERSE[key] = SIMPLIFIED_EMOTIONS_MAP[value]
 
-SIMPLIFIED_EMOTIONS_INDEX = {0: 'Sad/Fear', 1: 'Neutral', 2: 'Happy', 3: 'Angry', 4: 'Surprise/Disgust'}
+SIMPLIFIED_EMOTIONS_INDEX = {
+    0: "Sad/Fear",
+    1: "Neutral",
+    2: "Happy",
+    3: "Angry",
+    4: "Surprise/Disgust",
+}
 
 # These labels will be considered unimportant and their weightage will be reduced to the average weightage of the other labels. Assuming these labels are low in frequency.
 REDUCE_LABEL_WEIGHTAGE_TO_ONE = []
